@@ -40,14 +40,12 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-
         view.findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,8 +78,8 @@ public class LoginFragment extends Fragment {
                                 requireActivity().runOnUiThread(() -> {
                                     //Toast.makeText(getContext(), "Wrong password", Toast.LENGTH_SHORT).show();
                                     errorText.setTextColor(Color.parseColor("#FF0000"));
-                                    //nog tijd toevoegen
                                     errorText.setText("Wrong password!");
+                                    Log.d("LoginFragment", "Wrong password error received!");
                                 });
                             }
                         } else {
@@ -90,12 +88,21 @@ public class LoginFragment extends Fragment {
                                 errorText.setTextColor(Color.parseColor("#FF0000"));
                                 //nog tijd toevoegen
                                 errorText.setText("User or password incorrect!");
+                                Log.d("LoginFragment", "User or password incorrect error received!");
                             });
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }, Executors.newSingleThreadExecutor());
+            }
+        });
+        view.findViewById(R.id.accountButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_loginFragment_to_createaccountFragment);
+                Log.d("LoginFragment", "Navigate to create account succes!");
             }
         });
         return view;

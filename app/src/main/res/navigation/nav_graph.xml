@@ -16,6 +16,18 @@
     </fragment>
 
     <fragment
+        android:id="@+id/createaccountFragment"
+        android:name="be.ucll.electrodoctor.fragment.CreateAccountFragment"
+        tools:layout="@layout/fragment_create_account"
+        android:label="Create account"/>
+        <action
+            android:id="@+id/action_loginFragment_to_createaccountFragment"
+            app:destination="@id/createaccountFragment"/>
+    <action
+        android:id="@+id/action_createaccountFragment_to_loginFragment"
+        app:destination="@id/loginFragment"/>
+
+    <fragment
         android:id="@+id/testFragment"
         android:name="be.ucll.electrodoctor.fragment.TestFragment"
         tools:layout="@layout/fragment_test"/>

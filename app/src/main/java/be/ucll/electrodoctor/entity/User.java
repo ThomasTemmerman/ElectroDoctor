@@ -13,22 +13,22 @@ public class User {
         private String lastName;
         private String userName;
         private String password;
-        private Date birtdate;
+        private Date birthdate;
         private String municipality;
         private String postalcode;
         private String street;
         private String houseNumber;
         private String box;
 
-        public Date getBirtdate() {
-            return birtdate;
-        }
+    public Date getBirthdate() {
+        return birthdate;
+    }
 
-        public void setBirtdate(Date birtdate) {
-            this.birtdate = birtdate;
-        }
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
 
-        public String getBox() {
+    public String getBox() {
             return box;
         }
 
