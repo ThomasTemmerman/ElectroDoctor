@@ -11,8 +11,8 @@
         tools:layout="@layout/fragment_login"
         android:label="Login">
         <action
-            android:id="@+id/action_loginFragment_to_testFragment"
-            app:destination="@id/testFragment"/>
+            android:id="@+id/action_loginFragment_to_MainWorkOrderFragment"
+            app:destination="@id/mainWorkOrderFragment"/>
     </fragment>
 
     <fragment
@@ -31,4 +31,9 @@
         android:id="@+id/testFragment"
         android:name="be.ucll.electrodoctor.fragment.TestFragment"
         tools:layout="@layout/fragment_test"/>
+    <fragment
+        android:name="be.ucll.electrodoctor.fragment.MainWorkOrderFragment"
+        android:id="@+id/mainWorkOrderFragment"
+        tools:layout="@layout/fragment_main_work_order"
+        android:label="Main Work Order"/>
 </navigation>

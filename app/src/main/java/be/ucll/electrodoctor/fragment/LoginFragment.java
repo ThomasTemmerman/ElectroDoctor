@@ -1,6 +1,5 @@
 package be.ucll.electrodoctor.fragment;
 
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,18 +18,22 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.Executors;
 
 import be.ucll.electrodoctor.R;
 import be.ucll.electrodoctor.entity.User;
-import be.ucll.electrodoctor.viewmodel.UserViewModel;
+import be.ucll.electrodoctor.viewModel.UserViewModel;
 
 public class LoginFragment extends Fragment {
 
     private UserViewModel mViewModel;
 
+    public LoginFragment() {
+        // Required empty public constructor
+    }
     public static LoginFragment newInstance() {
         return new LoginFragment();
     }
@@ -63,13 +65,16 @@ public class LoginFragment extends Fragment {
                                     Log.d("LoginFragment", "Login successful");
                                     errorText.setTextColor(Color.parseColor("#a4c639"));
                                     errorText.setText("Login succesful!");
+                                    Snackbar snackbar = Snackbar.make(view, "Welcome " + user.getUserName() + " to Electrodoctor!",Snackbar.LENGTH_LONG);
+                                    snackbar.setBackgroundTint(Color.parseColor("#a4c639"));
+                                    snackbar.show();
 
                                     //delay van 3sec
                                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
                                             NavController navController = Navigation.findNavController(view);
-                                            navController.navigate(R.id.action_loginFragment_to_testFragment);
+                                            navController.navigate(R.id.action_loginFragment_to_MainWorkOrderFragment);
                                         }
                                     }, 3000);
                                 });

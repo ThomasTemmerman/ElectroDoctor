@@ -13,11 +13,12 @@ import java.util.concurrent.Executors;
 import be.ucll.electrodoctor.AppDatabase;
 import be.ucll.electrodoctor.dao.UserDao;
 import be.ucll.electrodoctor.entity.User;
+import be.ucll.electrodoctor.entity.UserWithWorkOrder;
 
 public class UserRepository {
-    private UserDao userDao;
-    private LiveData<List<User>> users;
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();//AsyncTask == deprecated
+    private final UserDao userDao;
+    private final LiveData<List<User>> users;
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();//AsyncTask == deprecated
 
     public UserRepository(Application application) {
         AppDatabase appDatabase = AppDatabase.getDatbase(application);
@@ -36,5 +37,10 @@ public class UserRepository {
             userDao.insertUser(user);
         });
     }
-    //eventueel nog andere CRUD
+    public Long insertWithId(User user) {
+        return userDao.insertUserWithId(user);
+    }
+    public LiveData<List<UserWithWorkOrder>> getUsersWithWorkOrders() {
+        return userDao.getUsersWithWorkOrders();
+    }
 }

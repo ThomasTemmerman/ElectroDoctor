@@ -2,4 +2,11 @@
     <string name="app_name">Electrodoctor</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hyperlink">I agree <a href="http://google.com">Terms and conditions</a></string>
+
+    <string name="City">City</string>
+    <string name="Device">Device</string>
+    <string name="Code">Code</string>
+    <string name="Name">Name</string>
+    <string name="Processed">Processes</string>
 </resources>
