@@ -12,4 +12,8 @@ public class UserWithWorkOrder {
             entityColumn = "userId"
     )
     public List<WorkOrder> workOrders;
+
+    public int getWorkOrders() {
+        return workOrders.size();
+    }
 }

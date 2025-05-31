@@ -17,8 +17,9 @@ import be.ucll.electrodoctor.dao.UserDao;
 import be.ucll.electrodoctor.dao.WorkOrderDao;
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.entity.WorkOrder;
+import be.ucll.electrodoctor.viewModel.UserViewModel;
 
-@Database(entities = {User.class, WorkOrder.class}, version = 4, exportSchema = false)
+@Database(entities = {User.class, WorkOrder.class}, version = 10, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
@@ -33,7 +34,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "app_database")
                             .addCallback(sRoomDatabaseCallback)
-                            //.fallbackToDestructiveMigration()
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
@@ -61,18 +62,20 @@ public abstract class AppDatabase extends RoomDatabase {
                     wo.setCustomerName("Doe");
                     wo.setDevice("Microwave");
                     wo.setProblemCode("12");
+                    wo.setDetailedProblemDescription("Mijne microwave werkt niet");
                     wo.setProcessed(false);
                     INSTANCE.workOrderDao().insertWorkOrder(wo);
-                    WorkOrder wo2 = new WorkOrder();
+                    WorkOrder wo2;
                     wo2 = new WorkOrder();
                     wo2.setUserId(userId);
                     wo2.setCity("Brussel");
                     wo2.setCustomerName("Jane");
                     wo2.setDevice("Oven");
                     wo2.setProblemCode("14D");
+                    wo2.setDetailedProblemDescription("Mijne oven werkt niet");
                     wo2.setProcessed(false);
                     INSTANCE.workOrderDao().insertWorkOrder(wo2);
-                    WorkOrder wo3 = new WorkOrder();
+                    WorkOrder wo3;
                     wo3 = new WorkOrder();
                     wo3.setUserId(userId);
                     wo3.setCity("Leuven");
@@ -81,7 +84,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     wo3.setProblemCode("69");
                     wo3.setProcessed(false);
                     INSTANCE.workOrderDao().insertWorkOrder(wo3);
-                    WorkOrder wo4 = new WorkOrder();
+                    WorkOrder wo4;
                     wo4 = new WorkOrder();
                     wo4.setUserId(userId);
                     wo4.setCity("Brussel");
@@ -90,7 +93,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     wo4.setProblemCode("12");
                     wo4.setProcessed(false);
                     INSTANCE.workOrderDao().insertWorkOrder(wo4);
-                    WorkOrder wo5 = new WorkOrder();
+                    WorkOrder wo5;
                     wo5 = new WorkOrder();
                     wo5.setUserId(userId);
                     wo5.setCity("Gent");

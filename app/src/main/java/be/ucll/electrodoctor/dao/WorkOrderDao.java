@@ -35,4 +35,9 @@ public interface WorkOrderDao {
     @Query("SELECT * FROM User WHERE userName = :userName")
     ListenableFuture<User> getUserByUsername(String userName);
 
+    @Query("SELECT * FROM WORKORDER WHERE CITY =:city AND DEVICE = :device AND CUSTOMERNAME = :customerName")
+    WorkOrder findByCityDeviceAndCustomerName(String city, String device, String customerName);
+
+    @Query("SELECT * FROM WorkOrder WHERE workOrderId = :workOrderId")
+    LiveData<WorkOrder> getWorkOrderById(long workOrderId);
 }

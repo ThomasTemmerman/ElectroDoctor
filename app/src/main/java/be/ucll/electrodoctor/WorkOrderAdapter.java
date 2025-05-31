@@ -16,6 +16,17 @@ import be.ucll.electrodoctor.entity.WorkOrder;
 //info: https://developer.android.com/develop/ui/views/layout/recyclerview
 public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.WorkOrderViewHolder> {
     private List<WorkOrder> workOrders = new ArrayList<>();
+    public onWorkOrderClickListener clickListener;
+
+    public interface onWorkOrderClickListener {
+        void onWorkOrderClick(WorkOrder workOrder);
+    }
+    public WorkOrderAdapter() {
+        this.clickListener = null;
+    }
+    public void setOnWorkOrderClickListener(onWorkOrderClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
 
     public void setWorkOrders(List<WorkOrder> newOrders) {
         workOrders = newOrders;
@@ -38,6 +49,13 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.Work
         holder.code.setText(wo.getProblemCode());
         holder.name.setText(wo.getCustomerName());
         holder.processed.setText(wo.getProcessed() ? "Yes" : "No");
+
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) {
+                clickListener.onWorkOrderClick(wo);
+            }
+        });
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

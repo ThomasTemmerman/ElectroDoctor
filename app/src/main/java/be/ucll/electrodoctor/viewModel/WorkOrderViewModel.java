@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.entity.UserWithWorkOrder;
@@ -26,13 +27,13 @@ public class WorkOrderViewModel extends AndroidViewModel {
     public LiveData<List<WorkOrder>> getAllWorkOrders() {
         return workOrders;
     }
-    public void Insert(WorkOrder workOrder) {
+    public void insert(WorkOrder workOrder) {
         repo.insert(workOrder);
     }
-    public void Delete(WorkOrder workOrder) {
+    public void delete(WorkOrder workOrder) {
         repo.delete(workOrder);
     }
-    public void Update(WorkOrder workOrder) {
+    public void update(WorkOrder workOrder) {
         repo.update(workOrder);
     }
     public ListenableFuture<User> getUserByUsername(String userName) {
@@ -40,5 +41,11 @@ public class WorkOrderViewModel extends AndroidViewModel {
     }
     public LiveData<List<UserWithWorkOrder>> getUserIdWithWorkOrders(long userId) {
         return repo.getUserIdWithWorkOrders(userId);
+    }
+    public void checkIfWorkOrderExists(WorkOrder workOrder, Consumer<Boolean> callback) {
+        repo.checkIfWorkOrderExists(workOrder, callback);
+    }
+    public LiveData<WorkOrder> getWorkOrderById(long workOrderId) {
+        return repo.getWorkOrderById(workOrderId);
     }
 }

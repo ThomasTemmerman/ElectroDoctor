@@ -8,5 +8,11 @@
     <string name="Device">Device</string>
     <string name="Code">Code</string>
     <string name="Name">Name</string>
-    <string name="Processed">Processes</string>
+    <string name="Processed">Processed</string>
+    <string name="Login">Login</string>
+    <string name="CreateAccount">Create account</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="Detailed">Detailed problem description:</string>
+    <string name="Repair">Repair information:</string>
 </resources>

@@ -9,20 +9,19 @@
         android:id="@+id/loginFragment"
         android:name="be.ucll.electrodoctor.fragment.LoginFragment"
         tools:layout="@layout/fragment_login"
-        android:label="Login">
-        <action
-            android:id="@+id/action_loginFragment_to_MainWorkOrderFragment"
-            app:destination="@id/mainWorkOrderFragment"/>
-    </fragment>
+        android:label="Login"/>
+    <action
+        android:id="@+id/action_loginFragment_to_MainWorkOrderFragment"
+        app:destination="@id/mainWorkOrderFragment"/>
 
     <fragment
         android:id="@+id/createaccountFragment"
         android:name="be.ucll.electrodoctor.fragment.CreateAccountFragment"
         tools:layout="@layout/fragment_create_account"
         android:label="Create account"/>
-        <action
-            android:id="@+id/action_loginFragment_to_createaccountFragment"
-            app:destination="@id/createaccountFragment"/>
+    <action
+        android:id="@+id/action_loginFragment_to_createaccountFragment"
+        app:destination="@id/createaccountFragment"/>
     <action
         android:id="@+id/action_createaccountFragment_to_loginFragment"
         app:destination="@id/loginFragment"/>
@@ -36,4 +35,37 @@
         android:id="@+id/mainWorkOrderFragment"
         tools:layout="@layout/fragment_main_work_order"
         android:label="Main Work Order"/>
+    <fragment
+        android:id="@+id/createWorkOrderFragment"
+        android:name="be.ucll.electrodoctor.fragment.CreateWorkOrderFragment"
+        tools:layout="@layout/fragment_create_work_order"
+        android:label="Create Work Order"/>
+    <fragment
+        android:id="@+id/detailWorkOrderFragment"
+        android:name="be.ucll.electrodoctor.fragment.DetailWorkOrderFragment"
+        tools:layout="@layout/fragment_detail_work_order"
+        android:label="Detail Work Order"/>
+    <fragment
+        android:id="@+id/detailWorkOrderFragmentReadOnly"
+        android:name="be.ucll.electrodoctor.fragment.ReadOnlyDetailWorkOrderFragment"
+        tools:layout="@layout/fragment_detail_work_order_readonly"
+        android:label="Detail Work Order"/>
+    <action
+        android:id="@+id/action_mainWorkOrderFragment_to_detailWorkOrderFragment"
+        app:destination="@id/detailWorkOrderFragment"/>
+    <action
+        android:id="@+id/action_mainWorkOrderFragment_to_createWorkOrderFragment"
+        app:destination="@id/createWorkOrderFragment"/>
+    <action
+        android:id="@+id/action_createWorkOrderFragment_to_mainWorkOrderFragment"
+        app:destination="@id/mainWorkOrderFragment"/>
+    <action
+        android:id="@+id/action_detailWorkOrderFragment_to_mainWorkOrderFragment"
+        app:destination="@id/mainWorkOrderFragment"/>
+    <action
+        android:id="@+id/action_mainWorkOrderFragment_to_detailWorkOrderFragmentReadOnly"
+        app:destination="@id/detailWorkOrderFragmentReadOnly"/>
+    <action
+        android:id="@+id/action_detailWorkOrderFragmentReadOnly_to_detailWorkOrderFragment"
+        app:destination="@id/detailWorkOrderFragment"/>
 </navigation>

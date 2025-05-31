@@ -1,6 +1,8 @@
 package be.ucll.electrodoctor.repository;
 
 import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.lifecycle.LiveData;
 
@@ -9,6 +11,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 import be.ucll.electrodoctor.AppDatabase;
 import be.ucll.electrodoctor.dao.WorkOrderDao;
@@ -52,5 +55,28 @@ public class WorkOrderRepository {
     }
     public LiveData<List<UserWithWorkOrder>> getUserIdWithWorkOrders(long userId) {
         return workOrderDao.getUserIdWithWorkOrders(userId);
+    }
+    public interface WorkOrderCallback {
+        void onResult(boolean exists);
+    }
+
+    //Moet dit doen omdat Room niet toelaat op main thread
+    public void checkIfWorkOrderExists(WorkOrder workOrder, Consumer<Boolean> callback) {
+        executorService.execute(() -> {
+            WorkOrder result = workOrderDao.findByCityDeviceAndCustomerName(
+                    workOrder.getCity(),
+                    workOrder.getDevice(),
+                    workOrder.getCustomerName()
+            );
+            boolean exists = (result != null);
+
+            // Terug naar main thread voor UI interactie
+            new Handler(Looper.getMainLooper()).post(() -> {
+                callback.accept(exists);
+            });
+        });
+    }
+    public LiveData<WorkOrder> getWorkOrderById(long workOrderId) {
+        return workOrderDao.getWorkOrderById(workOrderId);
     }
 }

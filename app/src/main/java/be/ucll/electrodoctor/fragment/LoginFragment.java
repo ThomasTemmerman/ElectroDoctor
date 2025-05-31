@@ -1,5 +1,7 @@
 package be.ucll.electrodoctor.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +25,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.Executors;
 
+import be.ucll.electrodoctor.EditTextClear;
 import be.ucll.electrodoctor.R;
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.viewModel.UserViewModel;
@@ -48,12 +51,14 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        EditText username = view.findViewById(R.id.editUsername);
+        EditTextClear.enableClearButton(username, getContext(), R.drawable.ic_clear);
+        EditText password = view.findViewById(R.id.editPassword);
+        EditTextClear.enableClearButton(password, getContext(), R.drawable.ic_clear);
+        TextView errorText = view.findViewById(R.id.textError);
         view.findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText username = view.findViewById(R.id.editUsername);
-                EditText password = view.findViewById(R.id.editPassword);
-                TextView errorText = view.findViewById(R.id.textError);
                 ListenableFuture<User> userFuture = mViewModel.getUserByUsername(username.getText().toString());
 
                 userFuture.addListener(() -> {
@@ -62,6 +67,7 @@ public class LoginFragment extends Fragment {
                         if (user != null) {
                             if (user.getPassword().equals(password.getText().toString()) && user.getUserName().equals(username.getText().toString())) {
                                 requireActivity().runOnUiThread(() -> {
+                                    mViewModel.setCurrentUser(user.getUserName());//user meepakken naar main fragment
                                     Log.d("LoginFragment", "Login successful");
                                     errorText.setTextColor(Color.parseColor("#a4c639"));
                                     errorText.setText("Login succesful!");
@@ -79,7 +85,6 @@ public class LoginFragment extends Fragment {
                                     }, 3000);
                                 });
                             } else {
-                                //TODO field text?
                                 requireActivity().runOnUiThread(() -> {
                                     //Toast.makeText(getContext(), "Wrong password", Toast.LENGTH_SHORT).show();
                                     errorText.setTextColor(Color.parseColor("#FF0000"));
@@ -91,9 +96,8 @@ public class LoginFragment extends Fragment {
                             requireActivity().runOnUiThread(() -> {
                                 //Toast.makeText(getContext(), "User or password incorrect", Toast.LENGTH_SHORT).show();
                                 errorText.setTextColor(Color.parseColor("#FF0000"));
-                                //nog tijd toevoegen
-                                errorText.setText("User or password incorrect!");
-                                Log.d("LoginFragment", "User or password incorrect error received!");
+                                errorText.setText("User or password is incorrect!");
+                                Log.d("LoginFragment", "User or password is incorrect error received!");
                             });
                         }
                     } catch (Exception e) {

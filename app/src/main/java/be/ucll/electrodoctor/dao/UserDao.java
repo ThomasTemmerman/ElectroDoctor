@@ -10,8 +10,11 @@ import java.util.List;
 
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.entity.UserWithWorkOrder;
+import be.ucll.electrodoctor.entity.WorkOrder;
 
 import com.google.common.util.concurrent.ListenableFuture;
+
+import org.checkerframework.checker.units.qual.A;
 
 @Dao
 public interface UserDao {
@@ -30,4 +33,27 @@ public interface UserDao {
     @Transaction
     @Query("SELECT * FROM User")
     LiveData<List<UserWithWorkOrder>> getUsersWithWorkOrders();
+
+    @Query("SELECT * FROM User WHERE isCurrentUser = 1 LIMIT 1")
+
+    LiveData<User> getCurrentUser();
+    @Query("UPDATE User SET isCurrentUser = 1 WHERE userName = :username")
+    void setCurrentUser(String username);
+
+    @Transaction
+    @Query("SELECT * FROM User WHERE isCurrentUser = 1 LIMIT 1")
+    LiveData<List<UserWithWorkOrder>> getCurrentUserWithWorkOrders();
+
+    @Transaction
+    @Query("SELECT * FROM User WHERE isCurrentUser = 1 LIMIT 1")
+    LiveData<List<UserWithWorkOrder>> getUserWithDetails();
+
+    @Transaction
+    default void makeUserCurrent(String username) {
+        clearOtherCurrentUsers(username);
+        setCurrentUser(username);
+    }
+
+    @Query("UPDATE User SET isCurrentUser = 0 WHERE isCurrentUser = 1 AND userName != :newCurrentUsername")
+    void clearOtherCurrentUsers(String newCurrentUsername);
 }

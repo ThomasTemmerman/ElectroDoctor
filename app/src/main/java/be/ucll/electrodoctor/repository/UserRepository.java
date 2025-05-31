@@ -12,8 +12,10 @@ import java.util.concurrent.Executors;
 
 import be.ucll.electrodoctor.AppDatabase;
 import be.ucll.electrodoctor.dao.UserDao;
+import be.ucll.electrodoctor.dao.WorkOrderDao;
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.entity.UserWithWorkOrder;
+import be.ucll.electrodoctor.entity.WorkOrder;
 
 public class UserRepository {
     private final UserDao userDao;
@@ -25,7 +27,6 @@ public class UserRepository {
         userDao = appDatabase.userDao();
         users = userDao.getAllUsers();
     }
-
     public LiveData<List<User>> getAllUsers() {
         return users;
     }
@@ -43,4 +44,23 @@ public class UserRepository {
     public LiveData<List<UserWithWorkOrder>> getUsersWithWorkOrders() {
         return userDao.getUsersWithWorkOrders();
     }
+    public LiveData<User> getCurrentUser() {
+        return userDao.getCurrentUser();
+    }
+    public void setCurrentUser(String username) {
+        executorService.execute(() -> {
+            userDao.setCurrentUser(username);
+        });
+        }
+        public LiveData<List<UserWithWorkOrder>> getCurrentUserWithWorkOrders() {
+            return userDao.getCurrentUserWithWorkOrders();
+        }
+        public LiveData<List<UserWithWorkOrder>> getUserWithDetails() {
+            return userDao.getUserWithDetails();
+        }
+        public void makeUserCurrent(String username) {
+            executorService.execute(() -> {
+                userDao.makeUserCurrent(username);
+            });
+        }
 }
