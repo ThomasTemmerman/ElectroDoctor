@@ -21,7 +21,7 @@ public class UserRepository {
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();//AsyncTask == deprecated
 
     public UserRepository(Application application) {
-        AppDatabase appDatabase = AppDatabase.getDatbase(application);
+        AppDatabase appDatabase = AppDatabase.getDatabase(application);
         userDao = appDatabase.userDao();
         users = userDao.getAllUsers();
     }

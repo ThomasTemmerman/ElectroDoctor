@@ -17,7 +17,7 @@ import be.ucll.electrodoctor.dao.WorkOrderDao;
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.entity.WorkOrder;
 
-@Database(entities = {User.class, WorkOrder.class}, version = 14, exportSchema = false)
+@Database(entities = {User.class, WorkOrder.class}, version = 2, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
@@ -25,7 +25,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase INSTANCE;
     private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-    public static AppDatabase getDatbase(Context context) {
+    public static AppDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
@@ -42,13 +42,12 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static RoomDatabase.Callback sRoomDatabaseCallback = new Callback() {
         @Override
-        public void onOpen(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
 
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    INSTANCE.clearAllTables();
                     User user = new User();
                     user.setUserName("test");
                     user.setPassword("test");

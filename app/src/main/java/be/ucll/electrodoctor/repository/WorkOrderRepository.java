@@ -26,7 +26,7 @@ public class WorkOrderRepository {
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public WorkOrderRepository(Application application) {
-        AppDatabase appDatabase = AppDatabase.getDatbase(application);
+        AppDatabase appDatabase = AppDatabase.getDatabase(application);
         workOrderDao = appDatabase.workOrderDao();
         workOrders = workOrderDao.getAllWorkOrders();
     }

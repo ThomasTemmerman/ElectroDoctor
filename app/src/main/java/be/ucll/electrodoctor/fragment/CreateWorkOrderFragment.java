@@ -118,6 +118,13 @@ public class CreateWorkOrderFragment extends Fragment {
                 });
             }
         });
+        view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_createWorkOrderFragment_to_mainWorkOrderFragment);
+            }
+        });
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         // Menu handling
         toolbar.setOnMenuItemClickListener(item -> {

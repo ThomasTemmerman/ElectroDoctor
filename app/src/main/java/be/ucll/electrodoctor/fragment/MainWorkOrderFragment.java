@@ -53,22 +53,16 @@ public class MainWorkOrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main_work_order, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.workorder_list);
         WorkOrderAdapter workOrderAdapter = new WorkOrderAdapter();
+        TextView txtWelcome = view.findViewById(R.id.txt_welcome);
         recyclerView.setAdapter(workOrderAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //welkom bericht
-        TextView txtWelcome = view.findViewById(R.id.txt_welcome);
-        mUserViewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
-            if (user != null) {
-                txtWelcome.setText("Welkom " + user.getUserName()+ "!");
-            } else {
-                txtWelcome.setText("Welkom gast!");
-            }
-        });
-        //get all work orders
+        //get all work orders by current user
         mUserViewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
                     if (user != null) {
                         Log.d("DEBUG", "Current user found: " + user.getUserName() + " (ID: " + user.getUserId() + ")");
+                        //welcome message
+                        txtWelcome.setText("Welkom " + user.getUserName()+ "!");//of first- en lastname
                         mUserViewModel.getCurrentUserWithWorkOrders().observe(getViewLifecycleOwner(), userWithWorkOrdersList -> {
                             Log.d("DEBUG", "UserWithWorkOrders callback triggered");
                             if (userWithWorkOrdersList != null && !userWithWorkOrdersList.isEmpty()) {
@@ -81,6 +75,7 @@ public class MainWorkOrderFragment extends Fragment {
                             }
                         });
                 } else {
+                        txtWelcome.setText("Welkom gast!");
                         Log.d("DEBUG", "No current user found");
                     }
                 });
