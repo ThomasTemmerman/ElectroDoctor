@@ -48,4 +48,7 @@ public class WorkOrderViewModel extends AndroidViewModel {
     public LiveData<WorkOrder> getWorkOrderById(long workOrderId) {
         return repo.getWorkOrderById(workOrderId);
     }
+    public LiveData<List<WorkOrder>> getWorkOrdersByUserId(long userId) {
+        return repo.getWorkOrdersByUserId(userId);
+    }
 }

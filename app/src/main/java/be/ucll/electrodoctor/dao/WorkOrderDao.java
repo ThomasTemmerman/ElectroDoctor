@@ -40,4 +40,6 @@ public interface WorkOrderDao {
 
     @Query("SELECT * FROM WorkOrder WHERE workOrderId = :workOrderId")
     LiveData<WorkOrder> getWorkOrderById(long workOrderId);
+    @Query("SELECT * FROM WorkOrder WHERE userId = :userId")
+    LiveData<List<WorkOrder>> getWorkOrdersByUserId(long userId);
 }

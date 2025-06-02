@@ -3,13 +3,12 @@ package be.ucll.electrodoctor.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.room.RoomDatabase;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -17,16 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
-import java.util.Objects;
-
-import be.ucll.electrodoctor.AppDatabase;
 import be.ucll.electrodoctor.EditTextClear;
 import be.ucll.electrodoctor.R;
 import be.ucll.electrodoctor.entity.WorkOrder;
@@ -80,40 +74,64 @@ public class CreateWorkOrderFragment extends Fragment {
         view.findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mUserViewModel.getCurrentUser().observe(getViewLifecycleOwner(), currentUser -> {
+                    if (currentUser != null) {
+                        WorkOrder workOrder = new WorkOrder();
+                        workOrder.setCity(city.getText().toString());
+                        workOrder.setProblemCode(code.getText().toString());
+                        workOrder.setDevice(device.getText().toString());
+                        workOrder.setCustomerName(name.getText().toString());
+                        workOrder.setProcessed(false);
 
-                WorkOrder workOrder = new WorkOrder();
-                workOrder.setCity(city.getText().toString());
-                workOrder.setProblemCode(code.getText().toString());
-                workOrder.setDevice(device.getText().toString());
-                workOrder.setCustomerName(name.getText().toString());
-                workOrder.setProcessed(false);
+                        workOrder.setUserId(currentUser.getUserId());//bug fixed!
 
-                mViewModel.checkIfWorkOrderExists(workOrder, exists -> {
-                    if (exists) {
-                        Snackbar snackbar = Snackbar.make(view, "Work order already exists!", Snackbar.LENGTH_LONG);
+                        mViewModel.checkIfWorkOrderExists(workOrder, exists -> {
+                            if (exists) {
+                                Snackbar snackbar = Snackbar.make(view, "Work order already exists!", Snackbar.LENGTH_LONG);
+                                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_red_dark));
+                                snackbar.show();
+                                errorText.setTextColor(Color.parseColor("#FF0000"));
+                                errorText.setText("Not saved! Work order with: " + workOrder.getCity() + ", " + workOrder.getDevice() + ", " + workOrder.getCustomerName() + " already exists!");
+                            } else if (city.getText().toString().isEmpty() || code.getText().toString().isEmpty() || device.getText().toString().isEmpty() || name.getText().toString().isEmpty()) {
+                                {
+                                    Snackbar snackbar = Snackbar.make(view, "Please fill in all fields!", Snackbar.LENGTH_LONG);
+                                    snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_red_dark));
+                                    snackbar.show();
+                                }
+                            } else {
+                                Log.d("Work order created", workOrder.toString());
+                                mViewModel.insert(workOrder);
+                                Snackbar snackbar = Snackbar.make(view, "Work order created!", Snackbar.LENGTH_LONG);
+                                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_green_dark));
+                                snackbar.show();
+                                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                    NavController navController = Navigation.findNavController(view);
+                                    navController.navigate(R.id.action_createWorkOrderFragment_to_mainWorkOrderFragment);
+                                    }, 3000);
+                            }
+                        });
+                    } else {
+                        Snackbar snackbar = Snackbar.make(view, "No current user!", Snackbar.LENGTH_LONG);
                         snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_red_dark));
                         snackbar.show();
-                        errorText.setTextColor(Color.parseColor("#FF0000"));
-                        errorText.setText("Not saved! Work order with: " + workOrder.getCity() + ", " + workOrder.getDevice() + ", " + workOrder.getCustomerName() + " already exists!");
-                    } else if (city.getText().toString().isEmpty() || code.getText().toString().isEmpty() || device.getText().toString().isEmpty() || name.getText().toString().isEmpty()) {
-                        {
-                            Snackbar snackbar = Snackbar.make(view, "Please fill in all fields!", Snackbar.LENGTH_LONG);
-                            snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_red_dark));
-                            snackbar.show();
-                        }
-                    } else {
-                        Log.d("Work order created", workOrder.toString());
-                        mViewModel.insert(workOrder);
-                        Snackbar snackbar = Snackbar.make(view, "Work order created!", Snackbar.LENGTH_LONG);
-                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_green_dark));
-                        snackbar.show();
-                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                            NavController navController = Navigation.findNavController(view);
-                            navController.navigate(R.id.action_createWorkOrderFragment_to_mainWorkOrderFragment);
-                        }, 3000);
                     }
                 });
             }
+        });
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        // Menu handling
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_home) {
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.mainWorkOrderFragment);
+                return true;
+            } else if (item.getItemId() == R.id.action_logout) {
+                // Logout logica
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.loginFragment);
+                return true;
+            }
+            return false;
         });
         return view;
     }

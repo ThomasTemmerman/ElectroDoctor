@@ -2,17 +2,28 @@ package be.ucll.electrodoctor.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import be.ucll.electrodoctor.NavigationOrigin;
 import be.ucll.electrodoctor.R;
 import be.ucll.electrodoctor.entity.WorkOrder;
 import be.ucll.electrodoctor.viewModel.WorkOrderViewModel;
@@ -57,22 +68,37 @@ public class ReadOnlyDetailWorkOrderFragment extends Fragment {
                 });
             }
         }
+        //reopen button
         view.findViewById(R.id.reOpen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle readonlyBundle = new Bundle();
-                readonlyBundle.putLong("workOrderId",workOrder.getWorkOrderId());
-                readonlyBundle.putString("DetailedProblemDescription", workOrder.getDetailedProblemDescription());
-                readonlyBundle.putString("repairInformation", workOrder.getRepairInformation());
+                if (workOrder != null) {
+                    Bundle readonlyBundle = new Bundle();
+                    readonlyBundle.putLong("workOrderId", workOrder.getWorkOrderId());
+                    readonlyBundle.putString("DetailedProblemDescription", workOrder.getDetailedProblemDescription());
+                    readonlyBundle.putString("repairInformation", workOrder.getRepairInformation());
+                    readonlyBundle.putSerializable("navigationOrigin",NavigationOrigin.READ_ONLY.name());
+
                     NavController navController = Navigation.findNavController(view);
-                    navController.navigate(R.id.action_detailWorkOrderFragmentReadOnly_to_detailWorkOrderFragment,readonlyBundle);
+                    navController.navigate(R.id.action_detailWorkOrderFragmentReadOnly_to_detailWorkOrderFragment, readonlyBundle);
+                }
             }
         });
-        view.findViewById(R.id.action_home).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
 
+        // Menu handling
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_home) {
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.mainWorkOrderFragment);
+                return true;
+            } else if (item.getItemId() == R.id.action_logout) {
+                // Logout logica
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.loginFragment);
+                return true;
             }
+            return false;
         });
         return view;
     }

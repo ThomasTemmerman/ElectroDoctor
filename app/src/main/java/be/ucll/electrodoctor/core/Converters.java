@@ -1,4 +1,4 @@
-package be.ucll.electrodoctor;
+package be.ucll.electrodoctor.core;
 
 import androidx.room.TypeConverter;
 

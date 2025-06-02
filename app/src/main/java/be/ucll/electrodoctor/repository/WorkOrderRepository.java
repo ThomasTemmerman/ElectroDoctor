@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import be.ucll.electrodoctor.AppDatabase;
+import be.ucll.electrodoctor.core.AppDatabase;
 import be.ucll.electrodoctor.dao.WorkOrderDao;
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.entity.UserWithWorkOrder;
@@ -78,5 +78,8 @@ public class WorkOrderRepository {
     }
     public LiveData<WorkOrder> getWorkOrderById(long workOrderId) {
         return workOrderDao.getWorkOrderById(workOrderId);
+    }
+    public LiveData<List<WorkOrder>> getWorkOrdersByUserId(long userId) {
+        return workOrderDao.getWorkOrdersByUserId(userId);
     }
 }

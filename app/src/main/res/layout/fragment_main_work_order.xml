@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:rotation="0"
             android:rotationY="0"
-            android:text="New"
+            android:text="@string/New"
             android:textColor="@android:color/black"
             android:textSize="26sp"
             android:textStyle="bold"

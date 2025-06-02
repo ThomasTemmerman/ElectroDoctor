@@ -35,7 +35,6 @@ public interface UserDao {
     LiveData<List<UserWithWorkOrder>> getUsersWithWorkOrders();
 
     @Query("SELECT * FROM User WHERE isCurrentUser = 1 LIMIT 1")
-
     LiveData<User> getCurrentUser();
     @Query("UPDATE User SET isCurrentUser = 1 WHERE userName = :username")
     void setCurrentUser(String username);
@@ -56,4 +55,10 @@ public interface UserDao {
 
     @Query("UPDATE User SET isCurrentUser = 0 WHERE isCurrentUser = 1 AND userName != :newCurrentUsername")
     void clearOtherCurrentUsers(String newCurrentUsername);
+
+    @Transaction
+    default void createAndSetCurrentUser(User user) {
+        makeUserCurrent(user.getUserName());
+        insertUser(user);
+    }
 }

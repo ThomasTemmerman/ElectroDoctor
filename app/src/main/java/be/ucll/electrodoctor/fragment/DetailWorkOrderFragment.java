@@ -3,6 +3,7 @@ package be.ucll.electrodoctor.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,6 +12,7 @@ import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import be.ucll.electrodoctor.EditTextClear;
+import be.ucll.electrodoctor.NavigationOrigin;
 import be.ucll.electrodoctor.R;
 import be.ucll.electrodoctor.entity.WorkOrder;
 import be.ucll.electrodoctor.viewModel.WorkOrderViewModel;
@@ -26,6 +30,9 @@ import be.ucll.electrodoctor.viewModel.WorkOrderViewModel;
 public class DetailWorkOrderFragment extends Fragment {
     private WorkOrderViewModel mWorkOrderViewModel;
     private WorkOrder currentWorkOrder;
+    NavigationOrigin navigationOrigin = NavigationOrigin.MAIN;//default enum
+
+
 
     public DetailWorkOrderFragment() {
         // Required empty public constructor
@@ -47,10 +54,16 @@ public class DetailWorkOrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail_work_order, container, false);
         TextView txtDescription = view.findViewById(R.id.textViewDescription);
         EditText txtRepairInformation = view.findViewById(R.id.editTextRepairInformation);
+        EditTextClear.enableClearButton(txtRepairInformation, getContext(), R.drawable.ic_clear);
         TextView txtError = view.findViewById(R.id.textViewErrorDetailed);
 
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if (bundle != null && bundle.containsKey("navigationOrigin")) {
+            try {
+                navigationOrigin = NavigationOrigin.valueOf(bundle.getString("navigationOrigin"));
+            } catch (IllegalArgumentException e) {
+                Log.e("NavigationOrigin", "Ongeldige navigateOrigin ontvangen");
+            }
             String Description = bundle.getString("DetailedProblemDescription");
             txtDescription.setText(Description);
             //workOrderId ophalen uit bundle
@@ -97,11 +110,37 @@ public class DetailWorkOrderFragment extends Fragment {
             view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //op basis van enum gaat navigeren naar juiste fragment
                     NavController navController = Navigation.findNavController(view);
-                    navController.navigate(R.id.action_detailWorkOrderFragment_to_mainWorkOrderFragment);
+                    if (navigationOrigin == NavigationOrigin.READ_ONLY) {
+                        Bundle cancelBundle = new Bundle();
+                        cancelBundle.putLong("workOrderId", currentWorkOrder.getWorkOrderId());
+                        cancelBundle.putString("DetailedProblemDescription", currentWorkOrder.getDetailedProblemDescription());
+                        cancelBundle.putString("repairInformation", currentWorkOrder.getRepairInformation());
+                        cancelBundle.putSerializable("navigationOrigin",NavigationOrigin.READ_ONLY.name());
+                        navController.navigate(R.id.action_detailWorkOrderFragment_to_detailWorkOrderFragmentReadOnly, cancelBundle);
+                    } else {
+                        navController.navigate(R.id.action_detailWorkOrderFragment_to_mainWorkOrderFragment);
+                    }
                 }
             });
         }
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+
+        // Menu handling
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_home) {
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.mainWorkOrderFragment);
+                return true;
+            } else if (item.getItemId() == R.id.action_logout) {
+                // Logout logica
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.loginFragment);
+                return true;
+            }
+            return false;
+        });
         return view;
     }
 }

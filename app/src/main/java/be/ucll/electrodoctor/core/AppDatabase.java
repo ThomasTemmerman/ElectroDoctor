@@ -1,7 +1,6 @@
-package be.ucll.electrodoctor;
+package be.ucll.electrodoctor.core;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -17,9 +16,8 @@ import be.ucll.electrodoctor.dao.UserDao;
 import be.ucll.electrodoctor.dao.WorkOrderDao;
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.entity.WorkOrder;
-import be.ucll.electrodoctor.viewModel.UserViewModel;
 
-@Database(entities = {User.class, WorkOrder.class}, version = 10, exportSchema = false)
+@Database(entities = {User.class, WorkOrder.class}, version = 14, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
@@ -62,7 +60,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     wo.setCustomerName("Doe");
                     wo.setDevice("Microwave");
                     wo.setProblemCode("12");
-                    wo.setDetailedProblemDescription("Mijne microwave werkt niet");
+                    wo.setDetailedProblemDescription("Mijn microgolfoven werkt niet meer!");
                     wo.setProcessed(false);
                     INSTANCE.workOrderDao().insertWorkOrder(wo);
                     WorkOrder wo2;
@@ -72,7 +70,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     wo2.setCustomerName("Jane");
                     wo2.setDevice("Oven");
                     wo2.setProblemCode("14D");
-                    wo2.setDetailedProblemDescription("Mijne oven werkt niet");
+                    wo2.setDetailedProblemDescription("Mijn oven is ontploft!");
                     wo2.setProcessed(false);
                     INSTANCE.workOrderDao().insertWorkOrder(wo2);
                     WorkOrder wo3;
@@ -81,6 +79,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     wo3.setCity("Leuven");
                     wo3.setCustomerName("Dove");
                     wo3.setDevice("TV");
+                    wo3.setDetailedProblemDescription("Mijn TV heeft geen signaal meer!");
                     wo3.setProblemCode("69");
                     wo3.setProcessed(false);
                     INSTANCE.workOrderDao().insertWorkOrder(wo3);

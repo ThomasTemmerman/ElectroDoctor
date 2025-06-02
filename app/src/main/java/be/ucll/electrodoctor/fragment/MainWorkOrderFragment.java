@@ -1,34 +1,27 @@
 package be.ucll.electrodoctor.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import be.ucll.electrodoctor.AppDatabase;
+import be.ucll.electrodoctor.NavigationOrigin;
 import be.ucll.electrodoctor.R;
-import be.ucll.electrodoctor.WorkOrderAdapter;
-import be.ucll.electrodoctor.dao.UserDao;
-import be.ucll.electrodoctor.entity.User;
+import be.ucll.electrodoctor.adapter.WorkOrderAdapter;
 import be.ucll.electrodoctor.entity.UserWithWorkOrder;
 import be.ucll.electrodoctor.entity.WorkOrder;
 import be.ucll.electrodoctor.viewModel.UserViewModel;
@@ -36,7 +29,7 @@ import be.ucll.electrodoctor.viewModel.WorkOrderViewModel;
 
 public class MainWorkOrderFragment extends Fragment {
 
-    private WorkOrderViewModel mViewModel;
+    private WorkOrderViewModel mWorkOrderViewModel;
     private UserViewModel mUserViewModel;
 
     public MainWorkOrderFragment() {
@@ -49,7 +42,7 @@ public class MainWorkOrderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mViewModel = new ViewModelProvider(this).get(WorkOrderViewModel.class);
+        this.mWorkOrderViewModel = new ViewModelProvider(this).get(WorkOrderViewModel.class);
         this.mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
 
@@ -73,9 +66,27 @@ public class MainWorkOrderFragment extends Fragment {
             }
         });
         //get all work orders
-        mViewModel.getAllWorkOrders().observe(getViewLifecycleOwner(), workOrders -> {
-            workOrderAdapter.setWorkOrders(workOrders);
-        });
+        mUserViewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
+                    if (user != null) {
+                        Log.d("DEBUG", "Current user found: " + user.getUserName() + " (ID: " + user.getUserId() + ")");
+                        mUserViewModel.getCurrentUserWithWorkOrders().observe(getViewLifecycleOwner(), userWithWorkOrdersList -> {
+                            Log.d("DEBUG", "UserWithWorkOrders callback triggered");
+                            if (userWithWorkOrdersList != null && !userWithWorkOrdersList.isEmpty()) {
+                                UserWithWorkOrder userWithWorkOrders = userWithWorkOrdersList.get(0);
+                                List<WorkOrder> workOrders = userWithWorkOrders.workOrders;
+                                Log.d("DEBUG", "Work orders for user: " + (workOrders != null ? workOrders.size() : "null"));
+                                workOrderAdapter.setWorkOrders(workOrders);
+                            } else {
+                                Log.d("DEBUG", "UserWithWorkOrdersList is empty");
+                            }
+                        });
+                } else {
+                        Log.d("DEBUG", "No current user found");
+                    }
+                });
+//        mViewModel.getAllWorkOrders().observe(getViewLifecycleOwner(), workOrders -> {
+//            workOrderAdapter.setWorkOrders(workOrders);
+//        });
         //navigate to detailWorkOrder fragment
         workOrderAdapter.setOnWorkOrderClickListener(workOrder -> {
             Bundle bundle = new Bundle();
@@ -84,7 +95,7 @@ public class MainWorkOrderFragment extends Fragment {
             bundle.putLong("workOrderId", workOrder.getWorkOrderId());
             bundle.putString("DetailedProblemDescription", workOrder.getDetailedProblemDescription());
             bundle.putString("repairInformation", workOrder.getRepairInformation());
-            //TODO: nog logica toevoegen om naar read-only of gewone fragment te gaan
+            bundle.putSerializable("navigationOrigin",NavigationOrigin.MAIN.name());
             NavController navController = Navigation.findNavController(requireView());
             if (isProcessed){
                 navController.navigate(R.id.action_mainWorkOrderFragment_to_detailWorkOrderFragmentReadOnly, bundle);
@@ -101,6 +112,22 @@ public class MainWorkOrderFragment extends Fragment {
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.action_mainWorkOrderFragment_to_createWorkOrderFragment);
             }
+        });
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+
+        // Menu handling
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_home) {
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.mainWorkOrderFragment);
+                return true;
+            } else if (item.getItemId() == R.id.action_logout) {
+                // Logout logica
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.loginFragment);
+                return true;
+            }
+            return false;
         });
         return view;
     }

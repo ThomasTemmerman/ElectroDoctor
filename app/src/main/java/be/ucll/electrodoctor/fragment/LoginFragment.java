@@ -67,6 +67,7 @@ public class LoginFragment extends Fragment {
                         if (user != null) {
                             if (user.getPassword().equals(password.getText().toString()) && user.getUserName().equals(username.getText().toString())) {
                                 requireActivity().runOnUiThread(() -> {
+                                    mViewModel.clearOtherCurrentUsers(user.getUserName());
                                     mViewModel.setCurrentUser(user.getUserName());//user meepakken naar main fragment
                                     Log.d("LoginFragment", "Login successful");
                                     errorText.setTextColor(Color.parseColor("#a4c639"));

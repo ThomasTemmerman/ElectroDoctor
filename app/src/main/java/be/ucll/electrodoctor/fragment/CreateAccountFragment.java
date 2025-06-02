@@ -84,25 +84,36 @@ public class CreateAccountFragment extends Fragment {
                 userFuture.addListener(() -> {
                         requireActivity().runOnUiThread(() -> {
                             try {
+                                User existingUser = userFuture.get(); // Get the result of the query
+
+                                if (existingUser != null) {
+                                    Snackbar snackbar = Snackbar.make(view, "Username already exists!", Snackbar.LENGTH_LONG);
+                                    snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_red_dark));
+                                    snackbar.show();
+                                    return;
+                                }
+
                                 User user = new User();
                                 try {
                                     Date birthday = sdf.parse(date.getText().toString());
                                     user.setBirthdate(birthday);
                                 } catch (ParseException e) {
-                                    Snackbar snackbar = Snackbar.make(view, "Invalid date format!",Snackbar.LENGTH_LONG);
+                                    Snackbar snackbar = Snackbar.make(view, "Invalid date format!", Snackbar.LENGTH_LONG);
                                     snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_red_dark));
                                     snackbar.show();
                                     return;
                                 }
+
                                 if (firstname.getText().toString().isEmpty() || lastname.getText().toString().isEmpty()
-                                        || date.getText().toString().isEmpty() || postalcode.getText().toString().isEmpty() || street.getText().toString().isEmpty()
-                                        || house.getText().toString().isEmpty() || username.getText().toString().isEmpty()
-                                        || password.getText().toString().isEmpty()) {
-                                    Snackbar snackbar = Snackbar.make(view, "Please fill in all fields!",Snackbar.LENGTH_LONG);
+                                        || date.getText().toString().isEmpty() || postalcode.getText().toString().isEmpty()
+                                        || street.getText().toString().isEmpty() || house.getText().toString().isEmpty()
+                                        || username.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
+                                    Snackbar snackbar = Snackbar.make(view, "Please fill in all fields!", Snackbar.LENGTH_LONG);
                                     snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_red_dark));
                                     snackbar.show();
                                     return;
                                 }
+
                                 user.setFirstName(firstname.getText().toString());
                                 user.setLastName(lastname.getText().toString());
                                 user.setMunicipality(municipality.getText().toString());
@@ -112,18 +123,21 @@ public class CreateAccountFragment extends Fragment {
                                 user.setBox(box.getText().toString());
                                 user.setUserName(username.getText().toString());
                                 user.setPassword(password.getText().toString());
-                                mViewModel.insert(user);
+
+                                mViewModel.createAndSetCurrentUser(user);
+
                                 Snackbar snackbar = Snackbar.make(view, "Account created!", Snackbar.LENGTH_LONG);
                                 snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_green_dark));
                                 snackbar.show();
 
                                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                                NavController navController = Navigation.findNavController(view);
-                                navController.navigate(R.id.action_createaccountFragment_to_loginFragment);
-                                        },3000);
+                                    NavController navController = Navigation.findNavController(view);
+                                    navController.navigate(R.id.action_createaccountFragment_to_loginFragment);
+                                }, 3000);
+
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                Snackbar snackbar = Snackbar.make(view, "Error creating account",Snackbar.LENGTH_LONG);
+                                Snackbar snackbar = Snackbar.make(view, "Error creating account", Snackbar.LENGTH_LONG);
                                 snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_red_dark));
                                 snackbar.show();
                             }

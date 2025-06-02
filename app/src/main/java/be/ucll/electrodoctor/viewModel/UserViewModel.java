@@ -57,4 +57,10 @@ public class UserViewModel extends AndroidViewModel {
     public void loginAndSetCurrentUser(String username) {
         repo.makeUserCurrent(username);
     }
+    public void clearOtherCurrentUsers(String newCurrentUsername) {
+        repo.clearOtherCurrentUsers(newCurrentUsername);
+    }
+    public void createAndSetCurrentUser(User user) {
+        repo.createAndSetCurrentUser(user);
+    }
 }

@@ -1,8 +1,9 @@
-package be.ucll.electrodoctor;
+package be.ucll.electrodoctor.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.ucll.electrodoctor.R;
 import be.ucll.electrodoctor.entity.WorkOrder;
 
 //info: https://developer.android.com/develop/ui/views/layout/recyclerview
@@ -48,7 +50,7 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.Work
         holder.device.setText(wo.getDevice());
         holder.code.setText(wo.getProblemCode());
         holder.name.setText(wo.getCustomerName());
-        holder.processed.setText(wo.getProcessed() ? "Yes" : "No");
+        holder.processed.setChecked(wo.getProcessed());
 
         holder.itemView.setOnClickListener(v -> {
             if (clickListener != null) {
@@ -65,7 +67,8 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.Work
     }
 
     static class WorkOrderViewHolder extends RecyclerView.ViewHolder {
-        TextView city, device, code, name, processed;
+        TextView city, device, code, name;
+        CheckBox processed;
 
         public WorkOrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,7 +76,7 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.Work
             device = itemView.findViewById(R.id.txt_device);
             code = itemView.findViewById(R.id.txt_code);
             name = itemView.findViewById(R.id.txt_name);
-            processed = itemView.findViewById(R.id.txt_processed);
+            processed = itemView.findViewById(R.id.chck_processed);
         }
     }
 }

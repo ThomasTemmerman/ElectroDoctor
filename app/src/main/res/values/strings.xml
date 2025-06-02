@@ -2,8 +2,8 @@
     <string name="app_name">Electrodoctor</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hyperlink">I agree <a href="http://google.com">Terms and conditions</a></string>
 
+    <string name="hyperlink">I agree <a href="http://google.com">Terms and conditions</a></string>
     <string name="City">City</string>
     <string name="Device">Device</string>
     <string name="Code">Code</string>
@@ -15,4 +15,20 @@
     <string name="Password">Password</string>
     <string name="Detailed">Detailed problem description:</string>
     <string name="Repair">Repair information:</string>
+    <string name="Logout">Logout</string>
+    <string name="Reopen">Reopen</string>
+    <string name="New">New</string>
+    <string name="First_name">First name (required)</string>
+    <string name="Last_name">Last name (required)</string>"
+    <string name="Date_of_birth">Date of birth (required)</string>
+    <string name="Municipality">Municipality</string>
+    <string name="Postal_code">Postal code</string>
+    <string name="Street">Street</string>
+    <string name="house_number">House number</string>
+    <string name="box">Box</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Save">Save</string>
+    <string name="Problem_code">Problem code</string>"
+    <string name="Customer_name">Customer name</string>
+
 </resources>
