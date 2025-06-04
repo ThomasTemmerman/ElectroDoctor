@@ -1,7 +1,5 @@
 package be.ucll.electrodoctor.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,10 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -75,7 +71,7 @@ public class LoginFragment extends Fragment {
                                     Log.d("LoginFragment", "Login successful");
                                     errorText.setTextColor(Color.parseColor("#a4c639"));
                                     errorText.setText("Login succesful!");
-                                    Snackbar snackbar = Snackbar.make(view, "Welcome " + user.getUserName() + " to Electrodoctor!",Snackbar.LENGTH_LONG);
+                                    Snackbar snackbar = Snackbar.make(view, "Welcome " + user.getUserName() + " to ElectroMan!",Snackbar.LENGTH_LONG);
                                     snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_green_dark));
                                     snackbar.show();
 

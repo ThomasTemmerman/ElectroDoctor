@@ -55,11 +55,12 @@ public class CreateAccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_account, container, false);
-        //link klikbaar en button klikbaar maken op basis van checkbox
+
         TextView tosView = view.findViewById(R.id.tosTextView);
         Button button = view.findViewById(R.id.createButton);
         tosView.setMovementMethod(LinkMovementMethod.getInstance());
         CheckBox checkBox = view.findViewById(R.id.radioButton);
+        //link en button klikbaar maken op basis van checkbox
         button.setEnabled(checkBox.isChecked());
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             button.setEnabled(isChecked);
@@ -68,7 +69,6 @@ public class CreateAccountFragment extends Fragment {
         view.findViewById(R.id.createButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //View binding?
                 EditText firstname = view.findViewById(R.id.editFirstname);
                 EditText lastname = view.findViewById(R.id.editLastname);
                 EditText date = view.findViewById(R.id.editDate);
@@ -84,7 +84,7 @@ public class CreateAccountFragment extends Fragment {
                 userFuture.addListener(() -> {
                         requireActivity().runOnUiThread(() -> {
                             try {
-                                User existingUser = userFuture.get(); // Get the result of the query
+                                User existingUser = userFuture.get();
 
                                 if (existingUser != null) {
                                     Snackbar snackbar = Snackbar.make(view, "Username already exists!", Snackbar.LENGTH_LONG);

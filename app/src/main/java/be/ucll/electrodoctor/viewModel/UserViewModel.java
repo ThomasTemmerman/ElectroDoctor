@@ -8,13 +8,10 @@ import androidx.lifecycle.LiveData;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.entity.UserWithWorkOrder;
-import be.ucll.electrodoctor.entity.WorkOrder;
 import be.ucll.electrodoctor.repository.UserRepository;
 
 public class UserViewModel extends AndroidViewModel {

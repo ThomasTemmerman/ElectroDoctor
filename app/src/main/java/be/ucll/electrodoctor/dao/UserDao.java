@@ -10,11 +10,8 @@ import java.util.List;
 
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.entity.UserWithWorkOrder;
-import be.ucll.electrodoctor.entity.WorkOrder;
 
 import com.google.common.util.concurrent.ListenableFuture;
-
-import org.checkerframework.checker.units.qual.A;
 
 @Dao
 public interface UserDao {

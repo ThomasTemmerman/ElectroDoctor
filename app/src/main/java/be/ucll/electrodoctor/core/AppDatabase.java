@@ -17,7 +17,7 @@ import be.ucll.electrodoctor.dao.WorkOrderDao;
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.entity.WorkOrder;
 
-@Database(entities = {User.class, WorkOrder.class}, version = 2, exportSchema = false)
+@Database(entities = {User.class, WorkOrder.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
@@ -40,15 +40,16 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static RoomDatabase.Callback sRoomDatabaseCallback = new Callback() {
+    private final static RoomDatabase.Callback sRoomDatabaseCallback = new Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
 
+
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    //INSTANCE.clearAllTables();
+                    //INSTANCE.clearAllTables(); handig voor onOpen()
                     User user = new User();
                     user.setUserName("test");
                     user.setPassword("test");
@@ -90,6 +91,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     wo4.setCustomerName("Jeff");
                     wo4.setDevice("Dishwasher");
                     wo4.setProblemCode("12");
+                    wo4.setDetailedProblemDescription("Mijn dishwasher werkt niet meer!");
                     wo4.setProcessed(false);
                     INSTANCE.workOrderDao().insertWorkOrder(wo4);
                     WorkOrder wo5;
@@ -98,7 +100,8 @@ public abstract class AppDatabase extends RoomDatabase {
                     wo5.setCity("Gent");
                     wo5.setCustomerName("Jane");
                     wo5.setDevice("Oven");
-                    wo5.setProblemCode("5");
+                    wo5.setProblemCode("1");
+                    wo5.setDetailedProblemDescription("Mijn ovendeur kan niet meer open en mijn taart gaat verbranden!");
                     wo5.setProcessed(false);
                     INSTANCE.workOrderDao().insertWorkOrder(wo5);
                 }

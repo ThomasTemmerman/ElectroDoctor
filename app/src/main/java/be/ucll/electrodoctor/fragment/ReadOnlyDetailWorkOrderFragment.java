@@ -1,24 +1,13 @@
 package be.ucll.electrodoctor.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -87,9 +76,10 @@ public class ReadOnlyDetailWorkOrderFragment extends Fragment {
         });
         Toolbar toolbar = view.findViewById(R.id.toolbar);
 
-        // Menu handling
+        //Menu handling
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_home) {
+                //Navigate to HomeFragment
                 NavOptions navOptions = new NavOptions.Builder()
                         .setEnterAnim(R.anim.zoom_in_enter)
                         .setExitAnim(R.anim.fade_out)
@@ -98,7 +88,7 @@ public class ReadOnlyDetailWorkOrderFragment extends Fragment {
                 navController.navigate(R.id.mainWorkOrderFragment,null,navOptions);
                 return true;
             } else if (item.getItemId() == R.id.action_logout) {
-                // Logout logica
+                //Navigate to LoginFragment
                 NavOptions navOptions = new NavOptions.Builder()
                         .setEnterAnim(R.anim.slide_in_from_top)
                         .setExitAnim(R.anim.fade_out)

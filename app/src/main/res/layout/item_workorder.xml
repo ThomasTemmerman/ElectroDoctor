@@ -47,9 +47,10 @@
         <CheckBox
             android:id="@+id/chck_processed"
             android:layout_width="0dp"
-            android:clickable="false"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="false"
+            android:textColorLink="#4CAF50" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

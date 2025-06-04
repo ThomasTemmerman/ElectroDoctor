@@ -110,14 +110,15 @@ public class MainWorkOrderFragment extends Fragment {
         });
         Toolbar toolbar = view.findViewById(R.id.toolbar);
 
-        // Menu handling
+        //Menu handling
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_home) {
+                //Navigate to HomeFragment
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.mainWorkOrderFragment);
                 return true;
             } else if (item.getItemId() == R.id.action_logout) {
-                // Logout logica
+                //Navigate to LoginFragment
                 NavOptions navOptions = new NavOptions.Builder()
                         .setEnterAnim(R.anim.slide_in_from_top)
                         .setExitAnim(R.anim.fade_out)

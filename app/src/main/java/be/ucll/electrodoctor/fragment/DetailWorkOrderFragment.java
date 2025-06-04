@@ -58,6 +58,7 @@ public class DetailWorkOrderFragment extends Fragment {
         EditTextClear.enableClearButton(txtRepairInformation, getContext(), R.drawable.ic_clear);
         TextView txtError = view.findViewById(R.id.textViewErrorDetailed);
 
+        //Based on Enum so navigate to correct fragment (READ_ONLY or MAIN)
         Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey("navigationOrigin")) {
             try {
@@ -74,7 +75,6 @@ public class DetailWorkOrderFragment extends Fragment {
                 mWorkOrderViewModel.getWorkOrderById(workOrderId).observe(getViewLifecycleOwner(), workOrder -> {
                     if (workOrder != null) {
                         this.currentWorkOrder = workOrder;
-                        //checken
                         txtRepairInformation.setText(workOrder.getRepairInformation());
                     }
                 });
@@ -128,9 +128,10 @@ public class DetailWorkOrderFragment extends Fragment {
         }
         Toolbar toolbar = view.findViewById(R.id.toolbar);
 
-        // Menu handling
+        //Menu handling
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_home) {
+                //Navigate to HomeFragment
                 NavOptions navOptions = new NavOptions.Builder()
                         .setEnterAnim(R.anim.zoom_in_enter)
                         .setExitAnim(R.anim.fade_out)
@@ -139,7 +140,7 @@ public class DetailWorkOrderFragment extends Fragment {
                 navController.navigate(R.id.mainWorkOrderFragment,null,navOptions);
                 return true;
             } else if (item.getItemId() == R.id.action_logout) {
-                // Logout logica
+                //Navigate to LoginFragment
                 NavOptions navOptions = new NavOptions.Builder()
                         .setEnterAnim(R.anim.slide_in_from_top)
                         .setExitAnim(R.anim.fade_out)

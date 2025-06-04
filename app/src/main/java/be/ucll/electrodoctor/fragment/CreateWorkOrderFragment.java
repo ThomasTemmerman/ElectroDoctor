@@ -65,7 +65,6 @@ public class CreateWorkOrderFragment extends Fragment {
         view.findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO CHECKEN IF THE FIELDS ARE EMPTY
                 city.setText("");
                 code.setText("");
                 device.setText("");
@@ -127,9 +126,10 @@ public class CreateWorkOrderFragment extends Fragment {
             }
         });
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        // Menu handling
+        //Menu handling
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_home) {
+                //Navigate to HomeFragment
                 NavOptions navOptions = new NavOptions.Builder()
                         .setEnterAnim(R.anim.zoom_in_enter)
                         .setExitAnim(R.anim.fade_out)
@@ -138,7 +138,7 @@ public class CreateWorkOrderFragment extends Fragment {
                 navController.navigate(R.id.mainWorkOrderFragment,null,navOptions);
                 return true;
             } else if (item.getItemId() == R.id.action_logout) {
-                // Logout logica
+                //Navigate to LoginFragment
                 NavOptions navOptions = new NavOptions.Builder()
                         .setEnterAnim(R.anim.slide_in_from_top)
                         .setExitAnim(R.anim.fade_out)
