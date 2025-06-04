@@ -8,6 +8,7 @@
     android:fillViewport="true"
     android:background="#E4E8DB"
     android:backgroundTint="#FBFBFB"
+    android:fitsSystemWindows="true"
     tools:context=".fragment.CreateAccountFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
