@@ -40,35 +40,75 @@
     <!-- Actions -->
     <action
         android:id="@+id/action_mainWorkOrderFragment_to_detailWorkOrderFragment"
-        app:destination="@id/detailWorkOrderFragment"/>
+        app:destination="@id/detailWorkOrderFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right"/>
     <action
         android:id="@+id/action_mainWorkOrderFragment_to_createWorkOrderFragment"
-        app:destination="@id/createWorkOrderFragment"/>
+        app:destination="@id/createWorkOrderFragment"
+        app:enterAnim="@anim/zoom_in_enter"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/zoom_out_exit"/>
     <action
         android:id="@+id/action_loginFragment_to_createaccountFragment"
-        app:destination="@id/createaccountFragment"/>
+        app:destination="@id/createaccountFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right"/>
     <action
         android:id="@+id/action_createaccountFragment_to_loginFragment"
-        app:destination="@id/loginFragment"/>
+        app:destination="@id/loginFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_left"/>
     <action
         android:id="@+id/action_createWorkOrderFragment_to_mainWorkOrderFragment"
-        app:destination="@id/mainWorkOrderFragment"/>
+        app:destination="@id/mainWorkOrderFragment"
+        app:enterAnim="@anim/slide_in_from_bottom"
+        app:exitAnim="@anim/fade_out"/>
     <action
         android:id="@+id/action_detailWorkOrderFragment_to_mainWorkOrderFragment"
-        app:destination="@id/mainWorkOrderFragment"/>
+        app:destination="@id/mainWorkOrderFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_left"/>
     <action
         android:id="@+id/action_mainWorkOrderFragment_to_detailWorkOrderFragmentReadOnly"
-        app:destination="@id/detailWorkOrderFragmentReadOnly"/>
+        app:destination="@id/detailWorkOrderFragmentReadOnly"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right"/>
     <action
         android:id="@+id/action_loginFragment_to_MainWorkOrderFragment"
-        app:destination="@id/mainWorkOrderFragment"/>
+        app:destination="@id/mainWorkOrderFragment"
+        app:enterAnim="@anim/slide_in_from_bottom"
+        app:exitAnim="@anim/fade_out"/>
     <action
         android:id="@+id/action_detailWorkOrderFragmentReadOnly_to_detailWorkOrderFragment"
-        app:destination="@id/detailWorkOrderFragment"/>
+        app:destination="@id/detailWorkOrderFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_left"/>
     <action
         android:id="@+id/action_detailWorkOrderFragmentReadOnly_to_mainWorkOrderFragment"
-        app:destination="@id/mainWorkOrderFragment"/>
+        app:destination="@id/mainWorkOrderFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_left"/>
     <action
         android:id="@+id/action_detailWorkOrderFragment_to_detailWorkOrderFragmentReadOnly"
-        app:destination="@id/detailWorkOrderFragmentReadOnly"/>
+        app:destination="@id/detailWorkOrderFragmentReadOnly"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right"/>
 </navigation>

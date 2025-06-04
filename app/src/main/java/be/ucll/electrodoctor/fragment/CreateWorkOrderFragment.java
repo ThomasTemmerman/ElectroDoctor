@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
@@ -129,13 +130,21 @@ public class CreateWorkOrderFragment extends Fragment {
         // Menu handling
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_home) {
+                NavOptions navOptions = new NavOptions.Builder()
+                        .setEnterAnim(R.anim.zoom_in_enter)
+                        .setExitAnim(R.anim.fade_out)
+                        .build();
                 NavController navController = Navigation.findNavController(view);
-                navController.navigate(R.id.mainWorkOrderFragment);
+                navController.navigate(R.id.mainWorkOrderFragment,null,navOptions);
                 return true;
             } else if (item.getItemId() == R.id.action_logout) {
                 // Logout logica
+                NavOptions navOptions = new NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in_from_top)
+                        .setExitAnim(R.anim.fade_out)
+                        .build();
                 NavController navController = Navigation.findNavController(view);
-                navController.navigate(R.id.loginFragment);
+                navController.navigate(R.id.loginFragment,null,navOptions);
                 return true;
             }
             return false;

@@ -48,6 +48,7 @@ public abstract class AppDatabase extends RoomDatabase {
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
+                    //INSTANCE.clearAllTables();
                     User user = new User();
                     user.setUserName("test");
                     user.setPassword("test");

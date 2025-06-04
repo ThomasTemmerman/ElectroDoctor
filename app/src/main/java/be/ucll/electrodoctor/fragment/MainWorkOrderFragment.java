@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.ucll.electrodoctor.NavigationOrigin;
@@ -54,6 +54,7 @@ public class MainWorkOrderFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.workorder_list);
         WorkOrderAdapter workOrderAdapter = new WorkOrderAdapter();
         TextView txtWelcome = view.findViewById(R.id.txt_welcome);
+
         recyclerView.setAdapter(workOrderAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -63,8 +64,10 @@ public class MainWorkOrderFragment extends Fragment {
                         Log.d("DEBUG", "Current user found: " + user.getUserName() + " (ID: " + user.getUserId() + ")");
                         //welcome message
                         txtWelcome.setText("Welkom " + user.getUserName()+ "!");//of first- en lastname
+
                         mUserViewModel.getCurrentUserWithWorkOrders().observe(getViewLifecycleOwner(), userWithWorkOrdersList -> {
                             Log.d("DEBUG", "UserWithWorkOrders callback triggered");
+
                             if (userWithWorkOrdersList != null && !userWithWorkOrdersList.isEmpty()) {
                                 UserWithWorkOrder userWithWorkOrders = userWithWorkOrdersList.get(0);
                                 List<WorkOrder> workOrders = userWithWorkOrders.workOrders;
@@ -79,10 +82,7 @@ public class MainWorkOrderFragment extends Fragment {
                         Log.d("DEBUG", "No current user found");
                     }
                 });
-//        mViewModel.getAllWorkOrders().observe(getViewLifecycleOwner(), workOrders -> {
-//            workOrderAdapter.setWorkOrders(workOrders);
-//        });
-        //navigate to detailWorkOrder fragment
+
         workOrderAdapter.setOnWorkOrderClickListener(workOrder -> {
             Bundle bundle = new Bundle();
             boolean isProcessed = workOrder.getProcessed();
@@ -118,8 +118,12 @@ public class MainWorkOrderFragment extends Fragment {
                 return true;
             } else if (item.getItemId() == R.id.action_logout) {
                 // Logout logica
+                NavOptions navOptions = new NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in_from_top)
+                        .setExitAnim(R.anim.fade_out)
+                        .build();
                 NavController navController = Navigation.findNavController(view);
-                navController.navigate(R.id.loginFragment);
+                navController.navigate(R.id.loginFragment,null,navOptions);
                 return true;
             }
             return false;
