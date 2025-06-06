@@ -100,7 +100,7 @@ public class DetailWorkOrderFragment extends Fragment {
                             }, 3000);
                     } else {
                         txtError.setTextColor(Color.parseColor("#FF0000"));
-                        txtError.setText("Not saved. No repair information was enterred!");
+                        txtError.setText("Not saved. No repair information was entered!");
                         }
                     } else {
                         txtError.setTextColor(Color.parseColor("#FF0000"));
