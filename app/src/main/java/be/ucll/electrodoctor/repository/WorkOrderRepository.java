@@ -50,6 +50,9 @@ public class WorkOrderRepository {
             workOrderDao.updateWorkOrder(workOrder);
         });
     }
+    public LiveData<List<WorkOrder>> updateRepairInformation(long userId, String repairInformation) {
+        return workOrderDao.updateRepairInformation(userId, repairInformation);
+    }
     public ListenableFuture<User> getUserByUsername(String userName) {
         return workOrderDao.getUserByUsername(userName);
     }

@@ -75,7 +75,7 @@ public class DetailWorkOrderFragment extends Fragment {
                 mWorkOrderViewModel.getWorkOrderById(workOrderId).observe(getViewLifecycleOwner(), workOrder -> {
                     if (workOrder != null) {
                         this.currentWorkOrder = workOrder;
-                        txtRepairInformation.setText(workOrder.getRepairInformation());
+                        mWorkOrderViewModel.updateRepairInformation(currentWorkOrder.getUserId(), currentWorkOrder.getRepairInformation());
                     }
                 });
             }

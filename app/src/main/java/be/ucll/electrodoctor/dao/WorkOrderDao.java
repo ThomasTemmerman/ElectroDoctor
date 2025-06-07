@@ -42,4 +42,6 @@ public interface WorkOrderDao {
     LiveData<WorkOrder> getWorkOrderById(long workOrderId);
     @Query("SELECT * FROM WorkOrder WHERE userId = :userId")
     LiveData<List<WorkOrder>> getWorkOrdersByUserId(long userId);
+    @Query("SELECT * FROM WorkOrder WHERE userId = :userId AND repairInformation = :repairInformation")
+    LiveData<List<WorkOrder>> updateRepairInformation(long userId, String repairInformation);
 }
