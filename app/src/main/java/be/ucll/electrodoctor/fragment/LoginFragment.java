@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,7 +30,7 @@ import be.ucll.electrodoctor.R;
 import be.ucll.electrodoctor.entity.User;
 import be.ucll.electrodoctor.viewModel.UserViewModel;
 
-public class LoginFragment extends Fragment {
+    public class LoginFragment extends Fragment {
 
     private UserViewModel mViewModel;
 
@@ -55,6 +56,7 @@ public class LoginFragment extends Fragment {
         EditText password = view.findViewById(R.id.editPassword);
         EditTextClear.enableClearButton(password, getContext(), R.drawable.ic_clear);
         TextView errorText = view.findViewById(R.id.textError);
+
         view.findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

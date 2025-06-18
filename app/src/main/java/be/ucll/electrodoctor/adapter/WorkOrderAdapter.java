@@ -66,7 +66,7 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.Work
         return workOrders.size();
     }
 
-    static class WorkOrderViewHolder extends RecyclerView.ViewHolder {
+    public static class WorkOrderViewHolder extends RecyclerView.ViewHolder {
         TextView city, device, code, name;
         CheckBox processed;
 

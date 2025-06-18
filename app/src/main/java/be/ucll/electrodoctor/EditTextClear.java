@@ -49,10 +49,11 @@ public class EditTextClear {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     Drawable drawableEnd = editText.getCompoundDrawables()[2];
                     if (drawableEnd != null) {
+                        //touchable area defining
                         float touchX = event.getX();
-                        int drawableWidth = drawableEnd.getBounds().width();
-                        int editTextWidth = editText.getWidth();
-                        int touchAreaStart = editTextWidth - drawableWidth - editText.getPaddingRight();
+                        int drawableWidth = drawableEnd.getBounds().width();//breedte icoon
+                        int editTextWidth = editText.getWidth();//totale breedte van editveld
+                        int touchAreaStart = editTextWidth - drawableWidth - editText.getPaddingRight();//berekenen van touchgebied
                         Log.d("EditTextClear", "Touch detected at X: " + touchX + ", touchAreaStart: " + touchAreaStart);
 
 

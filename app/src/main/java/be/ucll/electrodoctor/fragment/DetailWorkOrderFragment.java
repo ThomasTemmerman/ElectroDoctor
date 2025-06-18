@@ -68,6 +68,9 @@ public class DetailWorkOrderFragment extends Fragment {
             }
             String Description = bundle.getString("DetailedProblemDescription");
             txtDescription.setText(Description);
+
+            String repairInformation = bundle.getString("repairInformation");
+
             //workOrderId ophalen uit bundle
             long workOrderId = bundle.getLong("workOrderId", -1);
 
@@ -75,7 +78,12 @@ public class DetailWorkOrderFragment extends Fragment {
                 mWorkOrderViewModel.getWorkOrderById(workOrderId).observe(getViewLifecycleOwner(), workOrder -> {
                     if (workOrder != null) {
                         this.currentWorkOrder = workOrder;
-                        mWorkOrderViewModel.updateRepairInformation(currentWorkOrder.getUserId(), currentWorkOrder.getRepairInformation());
+
+                        if (repairInformation != null && !repairInformation.isEmpty()) {
+                            txtRepairInformation.setText(repairInformation);
+                        } else if (workOrder.getRepairInformation() != null) {
+                            txtRepairInformation.setText(workOrder.getRepairInformation());
+                        }
                     }
                 });
             }
@@ -89,15 +97,14 @@ public class DetailWorkOrderFragment extends Fragment {
                             currentWorkOrder.setRepairInformation(repairInformation);
                             currentWorkOrder.setProcessed(true);
                             mWorkOrderViewModel.update(currentWorkOrder);
+                            txtRepairInformation.setText(repairInformation);
                             txtError.setTextColor(Color.parseColor("#a4c639"));
                             txtError.setText("Work order saved!");
                             Snackbar snackbar = Snackbar.make(view, "Work order saved!", Snackbar.LENGTH_LONG);
                             snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), android.R.color.holo_green_dark));
                             snackbar.show();
-                            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             NavController navController = Navigation.findNavController(view);
                             navController.navigate(R.id.action_detailWorkOrderFragment_to_mainWorkOrderFragment);
-                            }, 3000);
                     } else {
                         txtError.setTextColor(Color.parseColor("#FF0000"));
                         txtError.setText("Not saved. No repair information was entered!");
